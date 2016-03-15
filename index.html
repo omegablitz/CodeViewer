@@ -4,7 +4,11 @@
     <meta charset="UTF-8">
     <title>GoNet</title>
     <link href="bootstrap.min.css" rel="stylesheet">
-    <link href="main.css" rel="stylesheet">
+    <style type="text/css">
+        html {
+            overflow-y:scroll;
+        }
+    </style>
     <link href="prism.css" rel="stylesheet" />
 </head>
 <body>
@@ -34,7 +38,25 @@
 </div>
 <script src="jquery.min.js"></script>
 <script src="bootstrap.min.js"></script>
-<script src="fileloader.js"></script>
+<script type="text/javascript">
+    var code = $("#code");
+    $("#dropdown").load("nav.html", function() {
+        var file = $(".file");
+
+        file.click(function () {
+            code.load(this.id, function() {
+                Prism.highlightElement(code[0]);
+            });
+        });
+    });
+
+    $('#brand').click(splash);
+
+    function splash() {
+        code.text("Welcome to the GoNet code browser! This website is served with GoNet. To see GoNet in action, check out the console on the other computer.")
+    }
+    splash();
+</script>
 <script src="prism.js"></script>
 </body>
 </html>
