@@ -8,6 +8,13 @@
         html {
             overflow-y:scroll;
         }
+        .navbar {
+            margin-bottom: 0;
+        }
+
+        #splashtext {
+            margin-top: 20px;
+        }
     </style>
     <link href="prism.css" rel="stylesheet" />
 </head>
@@ -34,26 +41,45 @@
     </div><!-- /.container-fluid -->
 </nav>
 <div class="container">
-    <pre><code class="language-go" id="code"></code></pre>
+    <div id="splashtext" class="jumbotron">
+        <h1>
+            GoNet Code Browser
+        </h1>
+        <p>
+            Welcome to the GoNet code browser! This website is served with GoNet. To see GoNet in action, check out the console on the other computer.
+        </p>
+    </div>
+    <h3><code id="filename"></code></h3>
+    <pre id="codearea"><code class="language-go" id="code"></code></pre>
 </div>
 <script src="jquery.min.js"></script>
 <script src="bootstrap.min.js"></script>
 <script type="text/javascript">
     var code = $("#code");
+    var filename = $('#filename');
+    var splashtext = $('#splashtext');
+    var codearea = $('#codearea');
     $("#dropdown").load("nav.html", function() {
         var file = $(".file");
 
         file.click(function () {
-            code.load(this.id, function() {
+            filename.hide();
+            splashtext.hide();
+            code.load(this.id, function(name) {
+                filename.text(name);
+                filename.show();
                 Prism.highlightElement(code[0]);
-            });
+                codearea.show();
+            }(this.id.split('.html')[0]));
         });
     });
 
     $('#brand').click(splash);
 
     function splash() {
-        code.text("Welcome to the GoNet code browser! This website is served with GoNet. To see GoNet in action, check out the console on the other computer.")
+        filename.hide();
+        codearea.hide();
+        splashtext.show();
     }
     splash();
 </script>
